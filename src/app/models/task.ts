@@ -1,5 +1,5 @@
 export interface Task {
-  $key: string;
+  $key?: string;
   title: string;
   description: string;
   completed: boolean;

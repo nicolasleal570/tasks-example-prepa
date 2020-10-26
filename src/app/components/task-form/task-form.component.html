@@ -1,1 +1,30 @@
-<p>task-form works!</p>
+<div class="container">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="titleTask">Enter Task Title</label>
+      <input
+        type="email"
+        class="form-control"
+        id="titleTask"
+        aria-describedby="titleTaskHelp"
+        placeholder="Ej. Make Homework"
+        formControlName="title"
+      />
+      <small id="titleTaskHelp" class="form-text text-muted"
+        >Put an awesome title.</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="titleTask">Enter Task Password</label>
+      <input
+        type="text"
+        class="form-control"
+        id="titleTask"
+        placeholder="Ej. Hola mundo!"
+        formControlName="description"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Task</button>
+  </form>
+</div>
