@@ -7,7 +7,7 @@ import { UpdateTaskPageComponent } from './pages/update-task-page/update-task-pa
 const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'task/create', component: CreateTaskPageComponent },
-  { path: 'task/:todoId/update', component: UpdateTaskPageComponent },
+  { path: 'task/:taskId/update', component: UpdateTaskPageComponent },
   { path: '**', pathMatch: 'full', redirectTo: '' },
 ];
 

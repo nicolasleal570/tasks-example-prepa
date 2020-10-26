@@ -32,4 +32,11 @@ export class TaskListComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  deleteTask(taskId: string): void {
+    this.loading = true;
+    this.tasksService.deleteTask(taskId).then((res) => {
+      this.loading = false;
+    });
+  }
 }

@@ -1,7 +1,7 @@
 <table class="table table-striped">
   <thead class="">
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Description</th>
       <th scope="col">Actions</th>
@@ -12,13 +12,23 @@
     <tr *ngFor="let task of tasks">
       <th scope="row">{{ task.$key }}</th>
       <td>{{ task.title }}</td>
-      <td>{{ task.Description }}</td>
+      <td>{{ task.description }}</td>
       <td>
-        <button type="button" class="btn btn-info btn-sm mr-2">
+        <a
+          [routerLink]="['/task', task.$key, 'update']"
+          class="btn btn-info btn-sm mr-2"
+        >
           Edit Task
-        </button>
+        </a>
 
-        <button type="button" class="btn btn-danger btn-sm">Delete Task</button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="deleteTask(task.$key)"
+          [disabled]="loading"
+        >
+          Delete Task
+        </button>
       </td>
     </tr>
   </tbody>

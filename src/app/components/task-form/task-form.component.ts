@@ -1,6 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from 'src/app/models/task';
 import { TasksService } from 'src/app/services/tasks.service';
 
@@ -10,19 +16,43 @@ import { TasksService } from 'src/app/services/tasks.service';
   styleUrls: ['./task-form.component.scss'],
 })
 export class TaskFormComponent implements OnInit {
+  editTask: Task = null;
   taskForm: FormGroup;
+  taskId = '';
   loading = false;
-
-  @Input() editTask: Task = null;
 
   constructor(
     private fb: FormBuilder,
     private taskService: TasksService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.getUrlParams();
+  }
+
+  getUrlParams(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.taskId = params.get('taskId');
+
+      if (this.taskId) {
+        this.loading = true;
+        this.taskService.getTask(this.taskId).subscribe((item) => {
+          this.editTask = {
+            $key: item.payload.id,
+            ...item.payload.data(),
+          };
+
+          this.taskForm.patchValue({
+            title: this.editTask.title,
+            description: this.editTask.description,
+          });
+          this.loading = false;
+        });
+      }
+    });
   }
 
   createForm(): void {
@@ -35,13 +65,18 @@ export class TaskFormComponent implements OnInit {
   createTask(data: Task): void {
     this.loading = true;
     this.taskService.createTask(data).then((res) => {
-      console.log('repsonse', res);
       this.loading = false;
       this.router.navigate(['']);
     });
   }
 
-  updateTask(data: Task): void {}
+  updateTask(data: Task): void {
+    this.loading = true;
+    this.taskService.updateTask(data, this.taskId).then((res) => {
+      this.loading = false;
+      this.router.navigate(['']);
+    });
+  }
 
   onSubmit(): void {
     const dataTask: Task = {
@@ -56,7 +91,5 @@ export class TaskFormComponent implements OnInit {
     }
 
     this.createTask(dataTask);
-
-    console.log(`Submiting form...`, dataTask);
   }
 }
