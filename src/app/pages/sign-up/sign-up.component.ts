@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -7,7 +9,35 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  signupForm: FormGroup = null;
 
-  ngOnInit(): void {}
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.createForm();
+  }
+
+  createForm(): void {
+    this.signupForm = this.fb.group({
+      email: '',
+      password: '',
+    });
+  }
+
+  onSubmit(): void {
+    const user = {
+      email: this.signupForm.get('email').value,
+      password: this.signupForm.get('password').value,
+    };
+    this.authService
+      .signUpWithCredentials(user)
+      .then(() => {
+        this.router.navigate(['/tasks']);
+      })
+      .catch((err) => console.log('error!', err));
+  }
 }

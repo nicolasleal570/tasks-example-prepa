@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,10 +11,23 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
   isAuth: boolean;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  loginForm: FormGroup = null;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
+    this.createForm();
+  }
+
+  createForm(): void {
+    this.loginForm = this.fb.group({
+      email: '',
+      password: '',
+    });
   }
 
   authWithGoogle(): void {
@@ -27,27 +41,16 @@ export class LoginComponent implements OnInit {
       .catch((err) => console.log(err));
   }
 
-  getCurrentUser(): void {
-    this.authService.getCurrentUser().subscribe((res) => {
-      if (res) {
-        const { email } = res;
-
-        if (email) {
-          this.isAuth = true;
-          return;
-        }
-      }
-
-      this.isAuth = false;
-    });
-  }
-
-  logout(): void {
+  onSubmit(): void {
+    const user = {
+      email: this.loginForm.get('email').value,
+      password: this.loginForm.get('password').value,
+    };
     this.authService
-      .logout()
-      .then((res) => {
-        console.log('Sesion cerrada');
+      .loginWithCredentials(user)
+      .then(() => {
+        this.router.navigate(['/']);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log('error!', err));
   }
 }

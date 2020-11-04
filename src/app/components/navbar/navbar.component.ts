@@ -24,8 +24,6 @@ export class NavbarComponent implements OnInit {
         this.user = response;
         this.isAuthenticated = true;
 
-        console.log(this.user.displayName);
-
         return;
       }
 
