@@ -28,6 +28,17 @@ export class SignUpComponent implements OnInit {
     });
   }
 
+  authWithGoogle(): void {
+    this.authService
+      .loginWithGoogle()
+      .then(() => {
+        if (this.authService.isAuthenticated()) {
+          this.router.navigate(['/tasks']);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   onSubmit(): void {
     const user = {
       email: this.signupForm.get('email').value,
