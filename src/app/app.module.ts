@@ -19,6 +19,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateTaskPageComponent } from './pages/create-task-page/create-task-page.component';
 import { UpdateTaskPageComponent } from './pages/update-task-page/update-task-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './pages/login/login.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { TasksPageComponent } from './pages/tasks-page/tasks-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     CreateTaskPageComponent,
     UpdateTaskPageComponent,
+    LoginComponent,
+    SignUpComponent,
+    TasksPageComponent,
   ],
   imports: [
     BrowserModule,

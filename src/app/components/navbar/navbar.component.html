@@ -26,11 +26,48 @@
       <li class="nav-item">
         <a
           class="nav-link"
+          [routerLink]="['/tasks']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Tasks
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
           [routerLink]="['/task/create']"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           >Create Task</a
         >
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" *ngIf="!isAuthenticated">
+        <a class="nav-link" [routerLink]="['/login']">Login</a>
+      </li>
+
+      <li class="nav-item dropdown" *ngIf="isAuthenticated">
+        <button
+          class="btn btn-link nav-link dropdown-toggle"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{ user?.displayName }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Ver perfil</a>
+          <div class="dropdown-divider"></div>
+          <button
+            class="btn btn-link text-danger dropdown-item"
+            (click)="logout()"
+          >
+            Cerrar sesión
+          </button>
+        </div>
       </li>
     </ul>
   </div>
